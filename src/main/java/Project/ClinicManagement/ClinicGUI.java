@@ -105,7 +105,7 @@ public class ClinicGUI {
         frame.add(closeButton);
 
         // Team Members Information
-        JLabel teamInfoLabel = new JLabel("<html>Team Members:<br>1. Kerolos Emad<br>2. Ahmad Hesham<br>3. Ahmed Galal<br>4. Hussien Bakr<br>5. Abdelhay Elkemary<br>6. Mohamed Hussien<br>7. Mahmoud Abbas</html>");
+        JLabel teamInfoLabel = new JLabel("<html>Team Members:<br>1. Kerolos Emad<br>2. Ahmad Hesham<br>3. Ahmed Mohamed galal<br>4. Hussien Bakr<br>5. Abdelhay Elkemary<br>6. Mohamed Hussien<br>7. Mahmoud Abbas</html>");
         teamInfoLabel.setBounds(150, 470, 250, 150);  // Adjust size and position
         frame.add(teamInfoLabel);
 
