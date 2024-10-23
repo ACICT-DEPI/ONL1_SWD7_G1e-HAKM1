@@ -9,17 +9,17 @@ import java.util.List;
 
 public class ClinicGUI {
     private JFrame frame;
-    private JTextField nameField, ageField, diseaseField;
+    private JTextField nameField, ageField, diseaseField, searchField;
     private JComboBox<String> genderComboBox, doctorComboBox, slotComboBox;
-    private JButton submitButton, viewButton;
+    private JButton submitButton, viewButton, searchButton, deleteButton;
     private List<Patient> patients = new ArrayList<>();
 
     public ClinicGUI() {
         frame = new JFrame("Clinic Management");
-        frame.setSize(400, 450);
+        frame.setSize(600, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
-        
+
         // Project logo
         JLabel logoLabel = new JLabel(new ImageIcon("logo-color.png"));  // Add your logo.png to the project directory
         logoLabel.setBounds(500, 40, 800, 800);  // Adjust size and position of the logo
@@ -45,7 +45,7 @@ public class ClinicGUI {
         genderLabel.setBounds(50, 150, 100, 30);
         frame.add(genderLabel);
 
-        genderComboBox = new JComboBox<>(new String[] {"Male", "Female"});
+        genderComboBox = new JComboBox<>(new String[]{"Male", "Female"});
         genderComboBox.setBounds(150, 150, 200, 30);
         frame.add(genderComboBox);
 
@@ -61,7 +61,7 @@ public class ClinicGUI {
         doctorLabel.setBounds(50, 250, 100, 30);
         frame.add(doctorLabel);
 
-        doctorComboBox = new JComboBox<>(new String[] {"Dr. Smith", "Dr. Jones"});
+        doctorComboBox = new JComboBox<>(new String[]{"Dr. Smith", "Dr. Jones"});
         doctorComboBox.setBounds(150, 250, 200, 30);
         frame.add(doctorComboBox);
 
@@ -69,7 +69,7 @@ public class ClinicGUI {
         slotLabel.setBounds(50, 300, 100, 30);
         frame.add(slotLabel);
 
-        slotComboBox = new JComboBox<>(new String[] {"9AM - 10AM", "10AM - 11AM"});
+        slotComboBox = new JComboBox<>(new String[]{"9AM - 10AM", "10AM - 11AM"});
         slotComboBox.setBounds(150, 300, 200, 30);
         frame.add(slotComboBox);
 
@@ -77,19 +77,36 @@ public class ClinicGUI {
         submitButton.setBounds(50, 350, 100, 30);
         frame.add(submitButton);
 
-        // Button to view saved data
         viewButton = new JButton("View Data");
         viewButton.setBounds(200, 350, 150, 30);
         frame.add(viewButton);
-        
+
+        // Search field and button
+        JLabel searchLabel = new JLabel("Search Name:");
+        searchLabel.setBounds(50, 400, 100, 30);
+        frame.add(searchLabel);
+
+        searchField = new JTextField();
+        searchField.setBounds(150, 400, 200, 30);
+        frame.add(searchField);
+
+        searchButton = new JButton("Search");
+        searchButton.setBounds(50, 450, 100, 30);
+        frame.add(searchButton);
+
+        // Delete button
+        deleteButton = new JButton("Delete");
+        deleteButton.setBounds(200, 450, 150, 30);
+        frame.add(deleteButton);
+
         // Close button
         JButton closeButton = new JButton("Close");
-        closeButton.setBounds(300, 420, 100, 30);
+        closeButton.setBounds(200, 650, 150, 30);
         frame.add(closeButton);
-        
+
         // Team Members Information
         JLabel teamInfoLabel = new JLabel("<html>Team Members:<br>1. Kerolos Emad<br>2. Ahmad Hesham<br>3. Ahmed Galal<br>4. Hussien Bakr<br>5. Abdelhay Elkemary<br>6. Mohamed Hussien<br>7. Mahmoud Abbas</html>");
-        teamInfoLabel.setBounds(150, 470, 200, 100);  // Adjust size and position
+        teamInfoLabel.setBounds(150, 470, 250, 150);  // Adjust size and position
         frame.add(teamInfoLabel);
 
         // Submit button action
@@ -140,7 +157,47 @@ public class ClinicGUI {
                 }
             }
         });
-        
+
+        // Search button action
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String searchName = searchField.getText();
+                    String patientData = ExcelHandler.searchPatientInExcel(searchName);
+
+                    if (patientData != null) {
+                        JOptionPane.showMessageDialog(frame, "Patient found:\n" + patientData);
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Patient not found!");
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(frame, "Error searching patient!");
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        // Delete button action
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String searchName = searchField.getText();
+                    boolean success = ExcelHandler.deletePatientFromExcel(searchName);
+
+                    if (success) {
+                        JOptionPane.showMessageDialog(frame, "Patient deleted successfully!");
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Patient not found!");
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(frame, "Error deleting patient!");
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         // Close action
         closeButton.addActionListener(e -> frame.dispose());  // This will close the GUI
 
