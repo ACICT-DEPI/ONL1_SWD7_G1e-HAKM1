@@ -16,7 +16,7 @@ public class ClinicGUI {
 
     public ClinicGUI() {
         frame = new JFrame("Clinic Management");
-        frame.setSize(600, 600);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
